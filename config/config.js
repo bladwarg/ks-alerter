@@ -4,7 +4,9 @@ module.exports = {
   botToken: process.env.BOT_TOKEN,
   channelId: process.env.CHANNEL_ID,
   scheduleTime: process.env.SCHEDULE_TIME || '0 9 * * *',
-  bear1Time: process.env.BEAR1_TIME || '30 0 */2 * *',
-  bear2Time: process.env.BEAR2_TIME || '30 19 */2 * *',
+  bear1Time: process.env.BEAR1_TIME || '30 0 * * *',
+  bear2Time: process.env.BEAR2_TIME || '30 18 * * *',
+  bear1start: process.env.BEAR1_START || '2026-02-08',
+  bear2start: process.env.BEAR2_START || '2026-02-09',
   timezone: process.env.TIMEZONE || 'Europe/Madrid'
 };

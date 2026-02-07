@@ -35,6 +35,20 @@ async function sendBear2Message(client) {
   }
 }
 
+function shouldRunBear(startDate) {
+  const now = new Date();
+  const start = new Date(startDate);
+  
+  // Reset times to midnight for accurate day comparison
+  now.setHours(0, 0, 0, 0);
+  start.setHours(0, 0, 0, 0);
+  
+  const daysDiff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  
+  // Run if days difference is 0, 2, 4, 6, etc.
+  return daysDiff >= 0 && daysDiff % 2 === 0;
+}
+
 function startScheduler(client, cronTime = config.scheduleTime) {
   if (arenaTask) {
     arenaTask.stop();
@@ -52,7 +66,11 @@ function startScheduler(client, cronTime = config.scheduleTime) {
   if (bear1Task) bear1Task.stop();
 
   bear1Task = cron.schedule(config.bear1Time, () => {
-    sendBear1Message(client);
+    if (shouldRunBear(config.bear1start)) {
+      sendBear1Message(client);
+    } else {
+      console.log(`[${new Date().toISOString()}] Bear 1 skipped (not scheduled today)`);
+    }
   }, {
     timezone: config.timezone
   });
@@ -63,7 +81,11 @@ function startScheduler(client, cronTime = config.scheduleTime) {
   if (bear2Task) bear2Task.stop();
   
   bear2Task = cron.schedule(config.bear2Time, () => {
+    if (shouldRunBear(config.bear2start)) {
     sendBear2Message(client);
+    } else {
+      console.log(`[${new Date().toISOString()}] Bear 2 skipped (not scheduled today)`);
+    }
   }, {
     timezone: config.timezone
   });
