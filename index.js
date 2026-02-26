@@ -1,3 +1,4 @@
+const { REST, Routes } = require('discord.js');
 const client = require('./bot/client');
 const { startAllSchedulers } = require('./bot/scheduler');
 const config = require('./config/config');
